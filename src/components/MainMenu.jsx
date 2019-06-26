@@ -1,43 +1,54 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import { Drawer, List } from 'material-ui';
-import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
-import CloseIcon from '@material-ui/icons/close';
-import { Link } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import MailIcon from '@material-ui/icons/Mail';
+
+const useStyles = makeStyles({
+    list: {
+        width: 250,
+    },
+    fullList: {
+        width: 'auto',
+    },
+});
 
 const MainMenu = ({ open, toggle }) => {
-    return <Drawer anchor="left" open={open} onClose={() => toggle()}>
-        <List style={{ width: '350px' }}>
-            <ListItem
-                onClick={() => toggle()}
-                divider>
-                <ListItemIcon>
-                    <CloseIcon />
-                </ListItemIcon>
-                <ListItemText>
-                    CLOSE
-                </ListItemText>
-            </ListItem>
-        </List>
-        <List component="nav">
-            <ListItem button component={Link} to="/mortgage_calculator" onClick={() => toggle()}>
-                <ListItemText>
-                    MORTGAGE_CALCULATOR
-                </ListItemText>
-            </ListItem>
-            <ListItem button component={Link} to="/compound_calculator" onClick={() => toggle()}>
-                <ListItemText>
-                    COMPOUND_INTEREST_CALCULATOR
-                </ListItemText>
-            </ListItem>
-        </List>
-        <List>
-        </List>
-    </Drawer>;
-};
-MainMenu.propTypes = {
-    open: PropTypes.bool,
-    toggle: PropTypes.func
-};
+    const classes = useStyles();
+
+    return (
+        <div>
+            <Drawer open={open} onClose={toggle}>
+                <div
+                    className={classes.list}
+                    role="presentation"
+                >
+                    <List>
+                        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+                            <ListItem button key={text}>
+                                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                                <ListItemText primary={text} />
+                            </ListItem>
+                        ))}
+                    </List>
+                    <Divider />
+                    <List>
+                        {['All mail', 'Trash', 'Spam'].map((text, index) => (
+                            <ListItem button key={text}>
+                                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                                <ListItemText primary={text} />
+                            </ListItem>
+                        ))}
+                    </List>
+                </div>
+            </Drawer>
+        </div>
+    );
+}
 
 export default MainMenu;

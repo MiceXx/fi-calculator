@@ -5,7 +5,7 @@ import NavBar from './components/NavBar.jsx';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import muiTheme from './theme/muiTheme';
 
-import { Alarm, MusicNote, Radio, Mail, Cake, Label, Nature } from '@material-ui/icons';
+import { Alarm } from '@material-ui/icons';
 
 function App() {
   return (
@@ -13,12 +13,6 @@ function App() {
       <div>
         <NavBar />
         <Alarm />
-        <MusicNote />
-        <Radio />
-        <Mail />
-        <Cake />
-        <Label />
-        <Nature />
       </div>
     </MuiThemeProvider >
   );
