@@ -1,25 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+
+import NavBar from './components/NavBar.jsx';
+
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import muiTheme from './theme/muiTheme';
+
+import { Alarm, MusicNote, Radio, Mail, Cake, Label, Nature } from '@material-ui/icons';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <MuiThemeProvider theme={muiTheme}>
+      <div>
+        <NavBar />
+        <Alarm />
+        <MusicNote />
+        <Radio />
+        <Mail />
+        <Cake />
+        <Label />
+        <Nature />
+      </div>
+    </MuiThemeProvider >
   );
 }
 
