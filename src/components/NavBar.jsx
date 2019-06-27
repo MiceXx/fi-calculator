@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { Route, Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+
+import FireCalculator from './FireCalculator/FireCalculator.jsx';
 
 import MainMenu from './MainMenu.jsx';
 
@@ -20,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function ButtonAppBar() {
+const ButtonAppBar=() =>{
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const classes = useStyles();
 
@@ -38,8 +41,13 @@ export default function ButtonAppBar() {
       </AppBar>
       <MainMenu
         open={isMenuVisible}
-        toggle={() =>setIsMenuVisible(!isMenuVisible)}
+        toggle={() => setIsMenuVisible(!isMenuVisible)}
       />
+
+      <Route path="/" exact component={FireCalculator} />
+      <Route path="/fire/" component={FireCalculator} />
     </div>
   );
 }
+
+export default ButtonAppBar;
