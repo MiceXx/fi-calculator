@@ -1,18 +1,18 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
-
-import NavBar from './components/NavBar.jsx';
-
+import { Provider } from 'react-redux';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+
 import muiTheme from './theme/muiTheme';
+import { store } from './app-helper';
+import AppRoutes from './routes/AppRoutes.jsx';
 
 function App() {
   return (
-    <MuiThemeProvider theme={muiTheme}>
-      <BrowserRouter>
-        <NavBar />
-      </BrowserRouter>
-    </MuiThemeProvider >
+    <Provider store={store}>
+      <MuiThemeProvider theme={muiTheme}>
+        <AppRoutes />
+      </MuiThemeProvider >
+    </Provider>
   );
 }
 

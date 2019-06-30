@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import {
     TextField,
@@ -13,7 +12,6 @@ import {
     Select,
     MenuItem,
 } from '@material-ui/core';
-import { fireCalculatorSetFormValues } from '../../store/fireCalculator/actions';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -23,31 +21,22 @@ const useStyles = makeStyles(theme => ({
     formControl: {
         minWidth: 120,
     },
-    statistic: {
-        marginRight: '1em',
-    }
 }));
 
-const GROWTH_OPTIONS = [4, 5, 6, 7, 8, 9, 10];
-
-const Calc1 = (props) => {
-    const {
-        form,
-        action_setFormValues,
-    } = props;
+const Calc1 = () => {
     const classes = useStyles();
+    const [values, setValues] = React.useState({
+        amount: '',
+        password: '',
+        weight: '',
+        weightRange: '',
+        showPassword: false,
+    });
+
     const handleChange = prop => event => {
     };
 
     const isActive = true;
-    const handleClick = (e, v) => {
-        console.log(e, v)
-        console.log(e.target.value)
-        action_setFormValues({
-            ...form,
-
-        })
-    }
 
     return (
         <Paper elevation={isActive ? 16 : 2} className={classes.root}>
@@ -63,7 +52,6 @@ const Calc1 = (props) => {
                         InputProps={{
                             startAdornment: <InputAdornment position="start">$</InputAdornment>
                         }}
-                        onChange={handleClick}
                     />
                 </ListItem>
                 <ListItem>
@@ -78,26 +66,30 @@ const Calc1 = (props) => {
                     <FormControl className={classes.formControl}>
                         <InputLabel htmlFor="age-simple">Growth</InputLabel>
                         <Select
-                            value={form.portfolioValue}
+                            value={values.age}
                             onChange={handleChange}
                             inputProps={{ name: 'age' }}
                         >
-                            {GROWTH_OPTIONS.map(v => (
-                                <MenuItem key={v} value={v}>{v}%</MenuItem>
-                            ))}
+                            <MenuItem value={4}>4%</MenuItem>
+                            <MenuItem value={5}>5%</MenuItem>
+                            <MenuItem value={6}>6%</MenuItem>
+                            <MenuItem value={7}>7%</MenuItem>
+                            <MenuItem value={8}>8%</MenuItem>
+                            <MenuItem value={9}>9%</MenuItem>
+                            <MenuItem value={10}>10%</MenuItem>
                         </Select>
                     </FormControl>
                 </ListItem>
                 <ListItem>
-                    <div className={classes.statistic}>
-                        <Typography variant="caption" >
-                            10 Year Value
+                    <div>
+                        <Typography variant="caption">
+                            10 Year Portfolio Value
                         </Typography>
                         <Typography color="primary" variant="h5">{1234}</Typography>
                     </div>
-                    <div className={classes.statistic}>
+                    <div>
                         <Typography variant="caption">
-                            20 Year Value
+                            20 Year Portfolio Value
                         </Typography>
                         <Typography color="primary" variant="h5">{1234}</Typography>
                     </div>
@@ -107,16 +99,4 @@ const Calc1 = (props) => {
     );
 }
 
-const mapStateToProps = ({ fireCalculator }) => {
-    return {
-        form: fireCalculator.form,
-    }
-}
-
-const mapDispatchToProps = (dispatch) => (
-    {
-        action_setFormValues: fireCalculatorSetFormValues(dispatch),
-    }
-)
-
-export default connect(mapStateToProps, mapDispatchToProps)(Calc1);
+export default Calc1;

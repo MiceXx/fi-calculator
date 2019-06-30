@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Route, Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -7,9 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
-import FireCalculator from './FireCalculator/FireCalculator.jsx';
-
 import MainMenu from './MainMenu.jsx';
+import { APP_ROUTES } from '../routes/routes.config';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,9 +22,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ButtonAppBar=() =>{
+const ButtonAppBar = ({ calculatorType, location }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const classes = useStyles();
+  const selectedRoute = APP_ROUTES.find(route => route.path === location.pathname);
 
   return (
     <div className={classes.root}>
@@ -35,7 +35,7 @@ const ButtonAppBar=() =>{
             <MenuIcon onClick={() => setIsMenuVisible(!isMenuVisible)} />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            News
+            {selectedRoute ? selectedRoute.label : 'Home'}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -43,11 +43,20 @@ const ButtonAppBar=() =>{
         open={isMenuVisible}
         toggle={() => setIsMenuVisible(!isMenuVisible)}
       />
-
-      <Route path="/" exact component={FireCalculator} />
-      <Route path="/fire/" component={FireCalculator} />
     </div>
   );
 }
 
-export default ButtonAppBar;
+const mapStateToProps = ({ general }) => {
+  return {
+    calculatorType: general.calculatorType
+  }
+}
+
+const mapDispatchToProps = (dispatch) => (
+  {
+
+  }
+)
+
+export default connect(mapStateToProps, mapDispatchToProps)(ButtonAppBar);
