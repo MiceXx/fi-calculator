@@ -1,4 +1,5 @@
-import React from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -13,7 +14,11 @@ import {
     Select,
     MenuItem,
 } from '@material-ui/core';
-import { fireCalculatorSetFormValues } from '../../store/fireCalculator/actions';
+import { formatCurrency } from '../../utils';
+import {
+    fireCalculatorSetFormValues,
+    fireCalculatorComputeProjected,
+} from '../../store/fireCalculator/actions';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -24,30 +29,48 @@ const useStyles = makeStyles(theme => ({
         minWidth: 120,
     },
     statistic: {
-        marginRight: '1em',
+        marginRight: '2em',
+    },
+    statisticCaption: {
+        color: 'grey',
+        fontSize: '12px',
     }
 }));
 
-const GROWTH_OPTIONS = [4, 5, 6, 7, 8, 9, 10];
+const GROWTH_OPTIONS = [2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 const Calc1 = (props) => {
     const {
         form,
+        projection,
         action_setFormValues,
     } = props;
     const classes = useStyles();
-    const handleChange = prop => event => {
-    };
-
     const isActive = true;
-    const handleClick = (e, v) => {
-        console.log(e, v)
-        console.log(e.target.value)
+    const handleChange = e => {
+        const name = e.target.name;
+        const value = e.target.value;
+        if (isNaN(value)) return;
         action_setFormValues({
             ...form,
-
+            [name]: value
         })
     }
+
+    useEffect(() => {
+        props.action_computeProjected(form);
+    }, [form]);
+
+    const Statistic = (title, content) => (
+        <div className={classes.statistic}>
+            <Typography className={classes.statisticCaption} >
+                {title}
+            </Typography>
+            <Typography color="primary" variant="h5">
+                {content}
+            </Typography>
+        </div>
+    )
 
     return (
         <Paper elevation={isActive ? 16 : 2} className={classes.root}>
@@ -59,16 +82,23 @@ const Calc1 = (props) => {
                 </ListItem>
                 <ListItem>
                     <TextField
+                        name="portfolioValue"
                         label="Portfolio Value"
+                        placeholder="0"
                         InputProps={{
                             startAdornment: <InputAdornment position="start">$</InputAdornment>
                         }}
-                        onChange={handleClick}
+                        value={form.portfolioValue}
+                        onChange={handleChange}
                     />
                 </ListItem>
                 <ListItem>
                     <TextField
+                        name="monthlySavings"
                         label="Monthly Savings"
+                        placeholder="0"
+                        value={form.monthlySavings}
+                        onChange={handleChange}
                         InputProps={{
                             startAdornment: <InputAdornment position="start">$</InputAdornment>
                         }}
@@ -78,30 +108,25 @@ const Calc1 = (props) => {
                     <FormControl className={classes.formControl}>
                         <InputLabel htmlFor="age-simple">Growth</InputLabel>
                         <Select
-                            value={form.portfolioValue}
+                            value={form.growth}
+                            name="growth"
                             onChange={handleChange}
-                            inputProps={{ name: 'age' }}
                         >
                             {GROWTH_OPTIONS.map(v => (
-                                <MenuItem key={v} value={v}>{v}%</MenuItem>
+                                <MenuItem key={v} value={v} name={v}>{v}%</MenuItem>
                             ))}
                         </Select>
                     </FormControl>
                 </ListItem>
-                <ListItem>
-                    <div className={classes.statistic}>
-                        <Typography variant="caption" >
-                            10 Year Value
-                        </Typography>
-                        <Typography color="primary" variant="h5">{1234}</Typography>
-                    </div>
-                    <div className={classes.statistic}>
-                        <Typography variant="caption">
-                            20 Year Value
-                        </Typography>
-                        <Typography color="primary" variant="h5">{1234}</Typography>
-                    </div>
-                </ListItem>
+                {projection.length > 20 ? <ListItem>
+                    {Statistic('10 Year Value', formatCurrency(projection[10].total))}
+                    {Statistic('20 Year Value', formatCurrency(projection[20].total))}
+                </ListItem> : null}
+                {projection.length > 40 ? <ListItem>
+                    {Statistic('30 Year Value', formatCurrency(projection[30].total))}
+                    {Statistic('40 Year Value', formatCurrency(projection[40].total))}
+                </ListItem> : null}
+
             </List >
         </Paper >
     );
@@ -110,12 +135,14 @@ const Calc1 = (props) => {
 const mapStateToProps = ({ fireCalculator }) => {
     return {
         form: fireCalculator.form,
+        projection: fireCalculator.projection,
     }
 }
 
 const mapDispatchToProps = (dispatch) => (
     {
         action_setFormValues: fireCalculatorSetFormValues(dispatch),
+        action_computeProjected: fireCalculatorComputeProjected(dispatch),
     }
 )
 

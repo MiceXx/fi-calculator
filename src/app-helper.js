@@ -6,7 +6,13 @@ import {
 import rootReducer from './store/root-reducer';
 
 const getMiddleware = () => {
-    return applyMiddleware(thunk);
+    const middleswares = [];
+    if (process.env.NODE_ENV === 'development') {
+        const { logger } = require('redux-logger');
+        middleswares.push(logger);
+    }
+    middleswares.push(thunk);
+    return applyMiddleware(...middleswares);
 }
 
 export const store = createStore(rootReducer, getMiddleware());

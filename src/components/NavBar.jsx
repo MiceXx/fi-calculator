@@ -31,8 +31,13 @@ const ButtonAppBar = ({ calculatorType, location }) => {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar variant="dense">
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="Menu">
-            <MenuIcon onClick={() => setIsMenuVisible(!isMenuVisible)} />
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            onClick={() => setIsMenuVisible(!isMenuVisible)}
+            color="inherit"
+            aria-label="Menu">
+            <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
             {selectedRoute ? selectedRoute.label : 'Home'}
