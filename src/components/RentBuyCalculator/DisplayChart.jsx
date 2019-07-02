@@ -45,10 +45,12 @@ const DisplayChart = (props) => {
 
   const CustomTooltip = ({ active, payload }) => {
     if (active) {
-      const { index, total } = payload[0].payload;
+      const { index, total, contributed, interestEarned } = payload[0].payload;
       return (
         <div className={classes.tooltip}>
           <p className={classes.tooltipHeader}>{`Year ${index}`}</p>
+          <p>{`Total Contribution ${formatCurrency(contributed)}`}</p>
+          <p>{`Total Interest Earned ${formatCurrency(interestEarned)}`}</p>
           <p>{`Portfolio Value ${formatCurrency(total)}`}</p>
         </div>
       );

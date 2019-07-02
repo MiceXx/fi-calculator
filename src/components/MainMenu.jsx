@@ -21,11 +21,6 @@ const useStyles = makeStyles({
 const MainMenu = (props) => {
     const { open, toggle } = props;
     const classes = useStyles();
-    const contentStyle = { transition: 'margin-left 450ms cubic-bezier(0.23, 1, 0.32, 1)' };
-
-    // if (drawerOpen) {
-    //     contentStyle.marginLeft = 256;
-    // }
 
     return (
         <div>

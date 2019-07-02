@@ -2,14 +2,14 @@ import React from 'react';
 
 import { Grid } from '@material-ui/core';
 
-import RentBuyForm from './RentBuyForm.jsx';
+import CompoundForm from './CompoundForm.jsx';
 import DisplayChart from './DisplayChart.jsx';
 
-const RentBuyCalculator = () => {
+const FireCalculator = () => {
     return (
         <Grid container>
             <Grid item xs={12}>
-                <RentBuyForm />
+                <CompoundForm />
             </Grid>
             <Grid item xs={12}>
                 <DisplayChart />
@@ -18,4 +18,4 @@ const RentBuyCalculator = () => {
     );
 }
 
-export default RentBuyCalculator;
+export default FireCalculator;

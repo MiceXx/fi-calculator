@@ -1,7 +1,8 @@
 
-import { Whatshot, Domain } from '@material-ui/icons';
-import FireCalculator from '../components/FireCalculator/FireCalculator.jsx';
+import { Whatshot, Domain, AccountBalance } from '@material-ui/icons';
+import CompoundCalculator from '../components/CompoundCalculator/CompoundCalculator.jsx';
 import RentBuyCalculator from '../components/RentBuyCalculator/RentBuyCalculator.jsx';
+import FireCalculator from '../components/FireCalculator/FireCalculator.jsx';
 
 export const APP_ROUTES = [
     {
@@ -11,7 +12,13 @@ export const APP_ROUTES = [
         label: 'FIRE Calculator'
     },
     {
-        path: '/rentorbuy',
+        path: '/compound',
+        component: CompoundCalculator,
+        icon: AccountBalance,
+        label: 'Compound Growth Calculator'
+    },
+    {
+        path: '/',
         component: RentBuyCalculator,
         icon: Domain,
         label: 'Rent or Buy?'

@@ -12,24 +12,29 @@ export function fireCalculatorSetFormValues(dispatch) {
 
 export function fireCalculatorComputeProjected(dispatch) {
     return form => {
-        const { portfolioValue, monthlySavings, growth } = form;
-        if (portfolioValue && monthlySavings && growth) {
+        const { age, contribution, growth, target } = form;
+        if (age !== '' &&
+            contribution !== '' &&
+            growth !== '' &&
+            target !== '' &&
+            !isNaN(age)
+            && !isNaN(contribution)
+            && !isNaN(target)
+            && !isNaN(growth)) {
             const projection = [];
+            const rate = growth / 100;
+            let timeToTarget = Math.log(1 + (target * (rate / MONTHS_PER_YEAR)) / contribution) / Math.log(1 + (rate / MONTHS_PER_YEAR));
+            timeToTarget = Math.round(timeToTarget / 12);
             for (let i = 0; i <= PROJECTION_YEARS; i++) {
-                const rate = growth / 100;
                 const ir = rate / MONTHS_PER_YEAR + 1;
                 const t = i * MONTHS_PER_YEAR;
-                const total = portfolioValue * Math.pow(ir, t) + monthlySavings * ((Math.pow(ir, t) - 1) / (rate / MONTHS_PER_YEAR)) * ir;
-                const contributed = portfolioValue + monthlySavings * t;
-                const interestEarned = total - contributed;
+                const total = contribution * ((Math.pow(ir, t) - 1) / (rate / MONTHS_PER_YEAR));
                 projection.push({
                     index: i,
                     total,
-                    contributed,
-                    interestEarned,
                 });
             }
-            dispatch({ type: FIRE_CALCULATOR_COMPUTE_VALUES, projection });
+            dispatch({ type: FIRE_CALCULATOR_COMPUTE_VALUES, projection, timeToTarget });
         }
     }
 }

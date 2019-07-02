@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,7 +13,6 @@ import {
     Select,
     MenuItem,
 } from '@material-ui/core';
-import { formatCurrency } from '../../utils';
 import {
     fireCalculatorSetFormValues,
     fireCalculatorComputeProjected,
@@ -24,80 +22,85 @@ const useStyles = makeStyles(theme => ({
     root: {
         margin: '1em',
         padding: '1em',
+        flexGrow: 1,
+        textAlign: 'center',
     },
     formControl: {
-        minWidth: 120,
+        width: 180,
+        margin: 'auto',
     },
-    statistic: {
-        marginRight: '2em',
+    field: {
+        margin: 'auto',
     },
-    statisticCaption: {
-        color: 'grey',
-        fontSize: '12px',
-    }
 }));
 
+const AGE_OPTIONS = [];
+for (let i = 10; i <= 70; i++) AGE_OPTIONS.push(i);
 const GROWTH_OPTIONS = [2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-const Calc1 = (props) => {
+const FireForm = (props) => {
     const {
         form,
-        projection,
         action_setFormValues,
+        action_computeProjected,
     } = props;
     const classes = useStyles();
-    const isActive = true;
     const handleChange = e => {
         const name = e.target.name;
         const value = e.target.value;
         if (isNaN(value)) return;
         action_setFormValues({
             ...form,
-            [name]: value
-        })
+            [name]: value ? parseInt(value, 10) : 0
+        });
     }
 
     useEffect(() => {
-        props.action_computeProjected(form);
-    }, [form]);
-
-    const Statistic = (title, content) => (
-        <div className={classes.statistic}>
-            <Typography className={classes.statisticCaption} >
-                {title}
-            </Typography>
-            <Typography color="primary" variant="h5">
-                {content}
-            </Typography>
-        </div>
-    )
+        action_computeProjected(form);
+    }, [action_computeProjected, form]);
 
     return (
-        <Paper elevation={isActive ? 16 : 2} className={classes.root}>
+        <Paper elevation={4} className={classes.root}>
             <List>
                 <ListItem>
-                    <Typography variant="h5">
-                        Calc 1
+                    <Typography variant="h5" className={classes.field}>
+                        FIRE Calculator
                     </Typography>
                 </ListItem>
                 <ListItem>
+                    <FormControl className={classes.formControl}>
+                        <InputLabel>Age</InputLabel>
+                        <Select
+                            value={form.age}
+                            name="age"
+                            onChange={handleChange}
+                        >
+                            {AGE_OPTIONS.map(v => (
+                                <MenuItem key={v} value={v} name={v}>{v}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </ListItem>
+                <ListItem>
                     <TextField
-                        name="portfolioValue"
-                        label="Portfolio Value"
+                        className={classes.field}
+                        name="contribution"
+                        label="Monthly Contributions"
                         placeholder="0"
+                        value={form.contribution}
+                        onChange={handleChange}
                         InputProps={{
                             startAdornment: <InputAdornment position="start">$</InputAdornment>
                         }}
-                        value={form.portfolioValue}
-                        onChange={handleChange}
                     />
                 </ListItem>
                 <ListItem>
                     <TextField
-                        name="monthlySavings"
-                        label="Monthly Savings"
+                        className={classes.field}
+                        name="target"
+                        label="FIRE Target"
                         placeholder="0"
-                        value={form.monthlySavings}
+                        value={form.target}
                         onChange={handleChange}
                         InputProps={{
                             startAdornment: <InputAdornment position="start">$</InputAdornment>
@@ -106,7 +109,7 @@ const Calc1 = (props) => {
                 </ListItem>
                 <ListItem>
                     <FormControl className={classes.formControl}>
-                        <InputLabel htmlFor="age-simple">Growth</InputLabel>
+                        <InputLabel>Annual Growth Rate</InputLabel>
                         <Select
                             value={form.growth}
                             name="growth"
@@ -118,15 +121,6 @@ const Calc1 = (props) => {
                         </Select>
                     </FormControl>
                 </ListItem>
-                {projection.length > 20 ? <ListItem>
-                    {Statistic('10 Year Value', formatCurrency(projection[10].total))}
-                    {Statistic('20 Year Value', formatCurrency(projection[20].total))}
-                </ListItem> : null}
-                {projection.length > 40 ? <ListItem>
-                    {Statistic('30 Year Value', formatCurrency(projection[30].total))}
-                    {Statistic('40 Year Value', formatCurrency(projection[40].total))}
-                </ListItem> : null}
-
             </List >
         </Paper >
     );
@@ -135,7 +129,6 @@ const Calc1 = (props) => {
 const mapStateToProps = ({ fireCalculator }) => {
     return {
         form: fireCalculator.form,
-        projection: fireCalculator.projection,
     }
 }
 
@@ -146,4 +139,4 @@ const mapDispatchToProps = (dispatch) => (
     }
 )
 
-export default connect(mapStateToProps, mapDispatchToProps)(Calc1);
+export default connect(mapStateToProps, mapDispatchToProps)(FireForm);

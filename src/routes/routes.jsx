@@ -2,24 +2,9 @@ import React from 'react';
 import { Route, BrowserRouter, Redirect } from 'react-router-dom';
 import { Whatshot, Domain } from '@material-ui/icons';
 import NavBar from '../components/NavBar.jsx';
-import FireCalculator from '../components/FireCalculator/FireCalculator.jsx';
+import FireCalculator from '../components/CompoundCalculator/FireCalculator.jsx.js';
 import RentBuyCalculator from '../components/RentBuyCalculator/RentBuyCalculator.jsx';
-
-const APP_ROUTES = [
-    {
-        path: '/fire',
-        component: FireCalculator,
-        icon: Whatshot,
-        label: 'FIRE Calculator'
-    },
-    {
-        path: '/rentorbuy',
-        component: RentBuyCalculator,
-        icon: Domain,
-        label: 'Rent or Buy?'
-    },
-
-];
+import { APP_ROUTES } from './routes.config';
 
 const AppRoutes = () => (
     <BrowserRouter>

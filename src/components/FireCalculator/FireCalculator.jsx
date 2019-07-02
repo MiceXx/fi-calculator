@@ -1,14 +1,20 @@
-import React, {Fragment } from 'react';
+import React from 'react';
 
-import Calc1 from './Calc1.jsx';
+import { Grid } from '@material-ui/core';
+
+import CompoundForm from './FireForm.jsx';
 import DisplayChart from './DisplayChart.jsx';
 
 const FireCalculator = () => {
     return (
-        <Fragment>
-            <Calc1 />
-            <DisplayChart />
-        </Fragment>
+        <Grid container>
+            <Grid item xs={12}>
+                <CompoundForm />
+            </Grid>
+            <Grid item xs={12}>
+                <DisplayChart />
+            </Grid>
+        </Grid>
     );
 }
 
