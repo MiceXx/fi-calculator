@@ -6,10 +6,10 @@ import {
 
 const initialState = {
     form: {
-        age: 25,
-        contribution: 1000,
-        target: 19600,
-        growth:10,
+        age: '',
+        contribution: '',
+        target: '',
+        growth:'',
     },
     projection: [],
     timeToTarget: -1,
