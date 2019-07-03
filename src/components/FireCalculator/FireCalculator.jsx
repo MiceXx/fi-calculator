@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Grid } from '@material-ui/core';
 
-import CompoundForm from './FireForm.jsx';
-import DisplayChart from './DisplayChart.jsx';
+import CompoundForm from './FireForm';
+import FireDisplayChart from './FireDisplayChart';
 
 const FireCalculator = () => {
     return (
@@ -12,7 +12,7 @@ const FireCalculator = () => {
                 <CompoundForm />
             </Grid>
             <Grid item xs={12}>
-                <DisplayChart />
+                <FireDisplayChart />
             </Grid>
         </Grid>
     );

@@ -17,6 +17,7 @@ import {
     compoundCalculatorSetFormValues,
     compoundCalculatorComputeProjected,
 } from '../../store/compoundCalculator/actions';
+import InfoButton from '../Common/InfoButton';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -26,12 +27,18 @@ const useStyles = makeStyles(theme => ({
         textAlign: 'center',
     },
     formControl: {
-        width: 180,
+        width: 150,
         margin: 'auto',
     },
     field: {
         margin: 'auto',
     },
+    fieldWithIcon: {
+        display: 'flex',
+        alignItems: 'center',
+        margin: 'auto',
+        paddingLeft: '30px',
+    }
 }));
 
 const GROWTH_OPTIONS = [2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -61,9 +68,12 @@ const CompoundForm = (props) => {
         <Paper elevation={4} className={classes.root}>
             <List>
                 <ListItem>
+                    <div className={classes.fieldWithIcon}>
                     <Typography variant="h5" className={classes.field}>
                         Investment Growth Calculator
                     </Typography>
+                        <InfoButton text="See how quickly your investments will grow with monthly contributions and the power of compounded returns" />
+                    </div>
                 </ListItem>
                 <ListItem>
                     <TextField
@@ -92,18 +102,21 @@ const CompoundForm = (props) => {
                     />
                 </ListItem>
                 <ListItem>
-                    <FormControl className={classes.formControl}>
-                        <InputLabel>Annual Growth Rate</InputLabel>
-                        <Select
-                            value={form.growth}
-                            name="growth"
-                            onChange={handleChange}
-                        >
-                            {GROWTH_OPTIONS.map(v => (
-                                <MenuItem key={v} value={v} name={v}>{v}%</MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
+                    <div className={classes.fieldWithIcon}>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel>Annual Return</InputLabel>
+                            <Select
+                                value={form.growth}
+                                name="growth"
+                                onChange={handleChange}
+                            >
+                                {GROWTH_OPTIONS.map(v => (
+                                    <MenuItem key={v} value={v} name={v}>{v}%</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <InfoButton text="The average rate of return on investments. The industry average for a well balanced portfolio is somewhere between 6-7%" />
+                    </div>
                 </ListItem>
             </List >
         </Paper >

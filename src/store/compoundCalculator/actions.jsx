@@ -11,14 +11,12 @@ export function compoundCalculatorSetFormValues(dispatch) {
 }
 
 export function compoundCalculatorComputeProjected(dispatch) {
+    const validate = (val) => val !== '' && !isNaN(val);
     return form => {
-        const {  portfolioValue, contribution, growth } = form;
-        if (portfolioValue !== '' &&
-            contribution !== '' &&
-            growth !== '' &&
-            !isNaN(portfolioValue)
-            && !isNaN(contribution)
-            && !isNaN(growth)) {
+        const { portfolioValue, contribution, growth } = form;
+        if (validate(portfolioValue) &&
+            validate(contribution) &&
+            validate(growth)) {
             const projection = [];
             for (let i = 0; i <= PROJECTION_YEARS; i++) {
                 const rate = growth / 100;

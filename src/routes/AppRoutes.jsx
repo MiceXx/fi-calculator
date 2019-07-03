@@ -1,12 +1,12 @@
 import React from 'react';
 import { Route, BrowserRouter, Redirect } from 'react-router-dom';
-import NavBar from '../components/NavBar.jsx';
+import NavBar from '../components/NavBar';
 import { APP_ROUTES } from './routes.config';
 
 const AppRoutes = () => (
     <BrowserRouter>
         <Route path="*" component={NavBar} />
-        <Redirect from="/" to="/fire" />
+        <Redirect from="/" to="/rentorbuy" />
         {APP_ROUTES.map(route => (
             <Route
                 key={route.label}

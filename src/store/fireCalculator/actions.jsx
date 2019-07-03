@@ -11,16 +11,13 @@ export function fireCalculatorSetFormValues(dispatch) {
 }
 
 export function fireCalculatorComputeProjected(dispatch) {
+    const validate = (val) => val !== '' && !isNaN(val);
     return form => {
         const { age, contribution, growth, target } = form;
-        if (age !== '' &&
-            contribution !== '' &&
-            growth !== '' &&
-            target !== '' &&
-            !isNaN(age)
-            && !isNaN(contribution)
-            && !isNaN(target)
-            && !isNaN(growth)) {
+        if (validate(age) &&
+            validate(contribution) &&
+            validate(growth) &&
+            validate(target)) {
             const projection = [];
             const rate = growth / 100;
             let timeToTarget = Math.log(1 + (target * (rate / MONTHS_PER_YEAR)) / contribution) / Math.log(1 + (rate / MONTHS_PER_YEAR));

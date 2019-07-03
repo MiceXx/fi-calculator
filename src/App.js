@@ -4,7 +4,7 @@ import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 
 import muiTheme from './theme/muiTheme';
 import { store } from './app-helper';
-import AppRoutes from './routes/AppRoutes.jsx';
+import AppRoutes from './routes/AppRoutes';
 
 function App() {
   return (

@@ -6,33 +6,17 @@ import {
     List,
     ListItem,
 } from '@material-ui/core';
-import {
-    fireCalculatorSetFormValues,
-    fireCalculatorComputeProjected,
-} from '../../store/fireCalculator/actions';
+import { formatCurrency } from '../../utils';
 
 const useStyles = makeStyles(theme => ({
-    root: {
-        margin: '1em',
-        padding: '1em',
-    },
     header: {
         margin: 'auto',
     },
-    statistic: {
-        textAlign: 'center',
-        flexGrow: 1,
-    },
-    statisticCaption: {
-        color: 'grey',
-        fontSize: '12px',
-    }
 }));
 
-const Calc1 = (props) => {
+const RentBuyChartStatistics = (props) => {
     const {
-        form,
-        timeToTarget,
+        projection,
     } = props;
     const classes = useStyles();
 
@@ -55,10 +39,12 @@ const Calc1 = (props) => {
                         Milestones
                     </Typography>
                 </ListItem>
-                <ListItem>
-                    {Statistic('You will FIRE at age', form.age + timeToTarget)}
-                </ListItem>
-
+                {projection.length > 40 ? <ListItem>
+                    {Statistic('10 Year Value', formatCurrency(projection[10].total))}
+                    {Statistic('20 Year Value', formatCurrency(projection[20].total))}
+                    {Statistic('30 Year Value', formatCurrency(projection[30].total))}
+                    {Statistic('40 Year Value', formatCurrency(projection[40].total))}
+                </ListItem> : null}
             </List >
         </Fragment >
     );
@@ -68,15 +54,7 @@ const mapStateToProps = ({ fireCalculator }) => {
     return {
         form: fireCalculator.form,
         projection: fireCalculator.projection,
-        timeToTarget: fireCalculator.timeToTarget,
     }
 }
 
-const mapDispatchToProps = (dispatch) => (
-    {
-        action_setFormValues: fireCalculatorSetFormValues(dispatch),
-        action_computeProjected: fireCalculatorComputeProjected(dispatch),
-    }
-)
-
-export default connect(mapStateToProps, mapDispatchToProps)(Calc1);
+export default connect(mapStateToProps, null)(RentBuyChartStatistics);

@@ -15,7 +15,7 @@ import {
   Paper,
 } from '@material-ui/core';
 import { formatCurrency } from '../../utils';
-import ChartStatistics from './ChartStatistics';
+import CompoundChartStatistics from './CompoundChartStatistics';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,12 +35,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const DisplayChart = (props) => {
+const CompoundDisplayChart = (props) => {
   const classes = useStyles();
   const { projection } = props;
 
   if (projection.length === 0) {
-    return <Paper elevation={2} className={classes.root}>Fill in the empty fields to see charts</Paper>;
+    return <Paper elevation={2} className={classes.root}>Fill in all required fields to see charts</Paper>;
   }
 
   const CustomTooltip = ({ active, payload }) => {
@@ -82,14 +82,14 @@ const DisplayChart = (props) => {
           <Area type="monotone" dataKey="contributed" stroke="#FDA50F" fill="#FDA50F" />
         </AreaChart>
       </ResponsiveContainer>
-      <ChartStatistics />
+      <CompoundChartStatistics />
     </Paper >
   );
 }
 
-const mapStateToProps = ({ fireCalculator }) => {
+const mapStateToProps = ({ compoundCalculator }) => {
   return {
-    projection: fireCalculator.projection,
+    projection: compoundCalculator.projection,
   }
 }
 
@@ -98,4 +98,4 @@ const mapDispatchToProps = (dispatch) => (
   }
 )
 
-export default connect(mapStateToProps, mapDispatchToProps)(DisplayChart);
+export default connect(mapStateToProps, mapDispatchToProps)(CompoundDisplayChart);

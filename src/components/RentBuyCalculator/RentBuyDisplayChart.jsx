@@ -15,7 +15,7 @@ import {
   Paper,
 } from '@material-ui/core';
 import { formatCurrency } from '../../utils';
-import ChartStatistics from './ChartStatistics';
+import RentBuyChartStatistics from './RentBuyChartStatistics';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,20 +35,22 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const DisplayChart = (props) => {
+const RentBuyDisplayChart = (props) => {
   const classes = useStyles();
   const { projection } = props;
 
   if (projection.length === 0) {
-    return <Paper elevation={2} className={classes.root}>Fill in the empty fields to see charts</Paper>;
+    return <Paper elevation={2} className={classes.root}>Fill in all required fields to see charts</Paper>;
   }
 
   const CustomTooltip = ({ active, payload }) => {
     if (active) {
-      const { index, total } = payload[0].payload;
+      const { index, total, contributed, interestEarned } = payload[0].payload;
       return (
         <div className={classes.tooltip}>
           <p className={classes.tooltipHeader}>{`Year ${index}`}</p>
+          <p>{`Total Contribution ${formatCurrency(contributed)}`}</p>
+          <p>{`Total Interest Earned ${formatCurrency(interestEarned)}`}</p>
           <p>{`Portfolio Value ${formatCurrency(total)}`}</p>
         </div>
       );
@@ -80,14 +82,14 @@ const DisplayChart = (props) => {
           <Area type="monotone" dataKey="contributed" stroke="#FDA50F" fill="#FDA50F" />
         </AreaChart>
       </ResponsiveContainer>
-      <ChartStatistics />
+      <RentBuyChartStatistics />
     </Paper >
   );
 }
 
-const mapStateToProps = ({ fireCalculator }) => {
+const mapStateToProps = ({ rentBuyCalculator }) => {
   return {
-    projection: fireCalculator.projection,
+    projection: rentBuyCalculator.projection,
   }
 }
 
@@ -96,4 +98,4 @@ const mapDispatchToProps = (dispatch) => (
   }
 )
 
-export default connect(mapStateToProps, mapDispatchToProps)(DisplayChart);
+export default connect(mapStateToProps, mapDispatchToProps)(RentBuyDisplayChart);
