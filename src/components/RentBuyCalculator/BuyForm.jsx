@@ -144,6 +144,23 @@ const BuyForm = (props) => {
                 </ListItem>
                 <ListItem>
                     <div className={classes.fieldWithIcon}>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel>Appreciation</InputLabel>
+                            <Select
+                                value={buyForm.amortizationPeriod}
+                                name="amortizationPeriod"
+                                onChange={handleChange}
+                            >
+                                {HOME_GROWTH_OPTIONS.map(v => (
+                                    <MenuItem key={v} value={v} name={v}>{v} years</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <InfoButton text="Mortgage amount is assumed to be (Property value + Fees) - Down Payment" />
+                    </div>
+                </ListItem>
+                <ListItem>
+                    <div className={classes.fieldWithIcon}>
                         <TextField
                             className={classes.field}
                             name="otherFees"

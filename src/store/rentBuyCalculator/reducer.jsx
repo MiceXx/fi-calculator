@@ -19,6 +19,7 @@ const initialState = {
         propertyTaxes: '',
         downPayment: '',
         mortgageRate: '',
+        amortizationPeriod: '',
         otherFees: '',
         appreciation: '',
     },
