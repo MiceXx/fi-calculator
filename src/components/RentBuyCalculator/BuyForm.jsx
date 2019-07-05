@@ -14,7 +14,7 @@ import {
     MenuItem,
 } from '@material-ui/core';
 import {
-    rentBuyCalculatorSetFormValues,
+    rentBuyCalculatorSetFormValuesBuy,
     rentBuyCalculatorComputeProjectedBuy,
 } from '../../store/rentBuyCalculator/actions';
 import InfoButton from '../Common/InfoButton';
@@ -27,8 +27,11 @@ const useStyles = makeStyles(theme => ({
         textAlign: 'center',
     },
     formControl: {
-        width: 150,
+        width: 180,
         margin: 'auto',
+    },
+    formControlAmortization: {
+        width: 150,
     },
     field: {
         margin: 'auto',
@@ -41,6 +44,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const HOME_GROWTH_OPTIONS = [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const AMORTIZATION_OPTIONS = [];
+for (let i = 1; i <= 30; i++) {
+    AMORTIZATION_OPTIONS.push(i);
+}
 
 const BuyForm = (props) => {
     const {
@@ -86,24 +93,6 @@ const BuyForm = (props) => {
                         value={buyForm.propertyCost}
                         onChange={handleChange}
                     />
-                </ListItem>
-                <ListItem>
-                    <div className={classes.fieldWithIcon}>
-                        <TextField
-                            className={classes.field}
-                            name="maintainanceCost"
-                            label="Maintainance Costs"
-                            placeholder="0"
-                            InputProps={{
-                                startAdornment: <InputAdornment position="start">$</InputAdornment>
-                            }}
-                            value={buyForm.maintainanceCost}
-                            onChange={handleChange}
-                        />
-                        <InfoButton text="Total monthly maintainance and upkeep costs" />
-                    </div>
-                </ListItem>
-                <ListItem>
                     <TextField
                         className={classes.field}
                         name="propertyTaxes"
@@ -128,6 +117,20 @@ const BuyForm = (props) => {
                         value={buyForm.downPayment}
                         onChange={handleChange}
                     />
+                    <div className={classes.fieldWithIcon}>
+                        <TextField
+                            className={classes.field}
+                            name="maintainanceCost"
+                            label="Maintainance Costs"
+                            placeholder="0"
+                            InputProps={{
+                                startAdornment: <InputAdornment position="start">$</InputAdornment>
+                            }}
+                            value={buyForm.maintainanceCost}
+                            onChange={handleChange}
+                        />
+                        <InfoButton text="Total monthly maintainance and upkeep costs" />
+                    </div>
                 </ListItem>
                 <ListItem>
                     <TextField
@@ -141,17 +144,15 @@ const BuyForm = (props) => {
                         value={buyForm.mortgageRate}
                         onChange={handleChange}
                     />
-                </ListItem>
-                <ListItem>
                     <div className={classes.fieldWithIcon}>
-                        <FormControl className={classes.formControl}>
-                            <InputLabel>Appreciation</InputLabel>
+                        <FormControl className={classes.formControlAmortization}>
+                            <InputLabel>Amortization Period</InputLabel>
                             <Select
                                 value={buyForm.amortizationPeriod}
                                 name="amortizationPeriod"
                                 onChange={handleChange}
                             >
-                                {HOME_GROWTH_OPTIONS.map(v => (
+                                {AMORTIZATION_OPTIONS.map(v => (
                                     <MenuItem key={v} value={v} name={v}>{v} years</MenuItem>
                                 ))}
                             </Select>
@@ -174,8 +175,6 @@ const BuyForm = (props) => {
                         />
                         <InfoButton text="Includes: Legal fees, Home inspection fees, Appraisal fees, Provincial/Municipal taxes, Insurance. A good estimate is around $5000 + 1% of property value" />
                     </div>
-                </ListItem>
-                <ListItem>
                     <div className={classes.fieldWithIcon}>
                         <FormControl className={classes.formControl}>
                             <InputLabel>Appreciation</InputLabel>
@@ -206,7 +205,7 @@ const mapStateToProps = ({ rentBuyCalculator }) => {
 
 const mapDispatchToProps = (dispatch) => (
     {
-        action_setFormValues: rentBuyCalculatorSetFormValues(dispatch),
+        action_setFormValues: rentBuyCalculatorSetFormValuesBuy(dispatch),
         action_computeProjected: rentBuyCalculatorComputeProjectedBuy(dispatch),
     }
 )

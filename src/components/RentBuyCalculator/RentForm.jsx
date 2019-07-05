@@ -16,7 +16,7 @@ import {
     Checkbox,
 } from '@material-ui/core';
 import {
-    rentBuyCalculatorSetFormValues,
+    rentBuyCalculatorSetFormValuesRent,
     rentBuyCalculatorComputeProjectedRent,
 } from '../../store/rentBuyCalculator/actions';
 import { formatCurrency } from '../../utils';
@@ -69,6 +69,18 @@ const RentForm = (props) => {
     useEffect(() => {
         action_computeProjected(rentForm);
     }, [action_computeProjected, rentForm]);
+
+    useEffect(() => {
+        if (investTheRest) {
+            if (assumedVals.portfolioValue && assumedVals.buyMonthlyCost) {
+                action_setFormValues({
+                    ...rentForm,
+                    portfolioValue: assumedVals.portfolioValue,
+                    contribution: assumedVals.buyMonthlyCost,
+                });
+            }
+        }
+    }, [action_setFormValues, investTheRest, assumedVals.portfolioValue, assumedVals.buyMonthlyCost]);
 
     return (
         <Paper elevation={4} className={classes.root}>
@@ -167,8 +179,8 @@ const RentForm = (props) => {
                         </ListItem>
                     </Fragment> :
                     <Fragment>
-                        <Statistics title="Cash on hand" content={formatCurrency(assumedVals.portfolioValue)} />
-                        <Statistics title="Monthly Savings" content={formatCurrency(assumedVals.buyMonthlyCost)} />
+                        {assumedVals.portfolioValue && <Statistics title="Cash on hand" content={formatCurrency(assumedVals.portfolioValue)} />}
+                        {assumedVals.buyMonthlyCost && <Statistics title="Monthly Savings" content={formatCurrency(assumedVals.buyMonthlyCost)} />}
                     </Fragment>}
             </List >
         </Paper >
@@ -184,7 +196,7 @@ const mapStateToProps = ({ rentBuyCalculator }) => {
 
 const mapDispatchToProps = (dispatch) => (
     {
-        action_setFormValues: rentBuyCalculatorSetFormValues(dispatch),
+        action_setFormValues: rentBuyCalculatorSetFormValuesRent(dispatch),
         action_computeProjected: rentBuyCalculatorComputeProjectedRent(dispatch),
     }
 )

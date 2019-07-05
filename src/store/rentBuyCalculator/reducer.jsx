@@ -1,6 +1,7 @@
 
 import {
-    RENTBUY_CALCULATOR_SET_FORM_VALUES,
+    RENTBUY_CALCULATOR_SET_FORM_VALUES_BUY,
+    RENTBUY_CALCULATOR_SET_FORM_VALUES_RENT,
     RENTBUY_CALCULATOR_COMPUTE_VALUES_RENT,
     RENTBUY_CALCULATOR_COMPUTE_VALUES_BUY,
 } from './actions';
@@ -19,7 +20,7 @@ const initialState = {
         propertyTaxes: '',
         downPayment: '',
         mortgageRate: '',
-        amortizationPeriod: '',
+        amortizationPeriod: 25,
         otherFees: '',
         appreciation: '',
     },
@@ -33,8 +34,10 @@ const initialState = {
 
 export default function rentBuyCalculator(state = Object.assign({}, initialState), action) {
     switch (action.type) {
-        case RENTBUY_CALCULATOR_SET_FORM_VALUES:
-            return Object.assign({}, state, { form: action.form });
+        case RENTBUY_CALCULATOR_SET_FORM_VALUES_BUY:
+            return Object.assign({}, state, { buyForm: action.buyForm });
+        case RENTBUY_CALCULATOR_SET_FORM_VALUES_RENT:
+            return Object.assign({}, state, { rentForm: action.rentForm });
         case RENTBUY_CALCULATOR_COMPUTE_VALUES_RENT:
             return Object.assign({}, state, {
                 projectionRent: action.projectionRent,
@@ -42,6 +45,7 @@ export default function rentBuyCalculator(state = Object.assign({}, initialState
         case RENTBUY_CALCULATOR_COMPUTE_VALUES_BUY:
             return Object.assign({}, state, {
                 projectionBuy: action.projectionBuy,
+                assumedVals: action.assumedVals,
             });
         default:
             return state;

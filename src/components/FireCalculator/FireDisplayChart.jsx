@@ -77,7 +77,6 @@ const FireDisplayChart = (props) => {
             label={{ value: 'Portfolio Value', angle: -90, position: 'insideLeft', offset: -60 }} />
           <Tooltip content={<CustomTooltip />} />
           <Area type="monotone" dataKey="total" stroke="#8884d8" fill="#55ffff" />
-          <Area type="monotone" dataKey="contributed" stroke="#FDA50F" fill="#FDA50F" />
         </AreaChart>
       </ResponsiveContainer>
       <FireChartStatistics />
