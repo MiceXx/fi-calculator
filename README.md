@@ -1,5 +1,3 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 **https://micexx.github.io/fi-calculator/**
 
 ## FIRE Calculator
@@ -11,3 +9,6 @@ The compound growth calculator is a simple tool to illustrate the growth of your
 
 ## Rent or Buy Calculator
 In an attempt to solve the commonly asked question: Should I rent or should I buy? This calculator will show you a long term projection of your expected wealth based on whether you buy your next home or continue as a renter.
+
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
