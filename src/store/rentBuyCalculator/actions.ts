@@ -1,3 +1,5 @@
+import { BuyFormType, RentFormType } from "../../components/types/RentBuyForm";
+
 export const RENTBUY_CALCULATOR_SET_FORM_VALUES_BUY = 'RENTBUY_CALCULATOR_SET_FORM_VALUES_BUY';
 export const RENTBUY_CALCULATOR_SET_FORM_VALUES_RENT = 'RENTBUY_CALCULATOR_SET_FORM_VALUES_RENT';
 export const RENTBUY_CALCULATOR_COMPUTE_VALUES_RENT = 'RENTBUY_CALCULATOR_COMPUTE_VALUES_RENT';
@@ -9,18 +11,18 @@ const MONTHS_PER_YEAR = 12;
 const validate = (val) => val !== '' && !isNaN(val);
 
 export function rentBuyCalculatorSetFormValuesBuy(dispatch) {
-    return buyForm => {
+    return (buyForm: BuyFormType) => {
         dispatch({ type: RENTBUY_CALCULATOR_SET_FORM_VALUES_BUY, buyForm });
     }
 }
 export function rentBuyCalculatorSetFormValuesRent(dispatch) {
-    return rentForm => {
+    return (rentForm: RentFormType) => {
         dispatch({ type: RENTBUY_CALCULATOR_SET_FORM_VALUES_RENT, rentForm });
     }
 }
 
 export function rentBuyCalculatorComputeProjectedRent(dispatch) {
-    return rentForm => {
+    return (rentForm: RentFormType) => {
         const { portfolioValue, contribution, growth, otherRentalFees, monthlyRent } = rentForm;
         if (validate(portfolioValue) &&
             validate(monthlyRent) &&
@@ -45,7 +47,7 @@ export function rentBuyCalculatorComputeProjectedRent(dispatch) {
 }
 
 export function rentBuyCalculatorComputeProjectedBuy(dispatch) {
-    return buyForm => {
+    return (buyForm: BuyFormType) => {
         const {
             propertyCost,
             maintainanceCost,

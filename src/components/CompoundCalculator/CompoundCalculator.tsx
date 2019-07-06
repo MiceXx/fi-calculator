@@ -5,7 +5,7 @@ import { Grid } from '@material-ui/core';
 import CompoundForm from './CompoundForm';
 import CompoundDisplayChart from './CompoundDisplayChart';
 
-const FireCalculator = () => {
+const CompoundCalculator = () => {
     return (
         <Grid container>
             <Grid item xs={12}>
@@ -18,4 +18,4 @@ const FireCalculator = () => {
     );
 }
 
-export default FireCalculator;
+export default CompoundCalculator;

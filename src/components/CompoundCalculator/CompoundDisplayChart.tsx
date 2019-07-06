@@ -16,6 +16,7 @@ import {
 } from '@material-ui/core';
 import { formatCurrency } from '../../utils';
 import CompoundChartStatistics from './CompoundChartStatistics';
+import theme from '../../theme';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,15 +36,20 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const CompoundDisplayChart = (props) => {
-  const classes = useStyles();
+interface CompoundDisplayChartProps {
+  projection: Array<any>
+}
+
+const CompoundDisplayChart: React.FC<CompoundDisplayChartProps> = (props) => {
+  const classes = useStyles(theme);
   const { projection } = props;
 
   if (projection.length === 0) {
     return <Paper elevation={2} className={classes.root}>Fill in all required fields to see charts</Paper>;
   }
 
-  const CustomTooltip = ({ active, payload }) => {
+  const CustomTooltip = (props: any) => {
+    const { active, payload } = props;
     if (active) {
       const { index, total, contributed, interestEarned } = payload[0].payload;
       return (
@@ -87,15 +93,10 @@ const CompoundDisplayChart = (props) => {
   );
 }
 
-const mapStateToProps = ({ compoundCalculator }) => {
+const mapStateToProps = ({ compoundCalculator }: { compoundCalculator: any }) => {
   return {
     projection: compoundCalculator.projection,
   }
 }
 
-const mapDispatchToProps = (dispatch) => (
-  {
-  }
-)
-
-export default connect(mapStateToProps, mapDispatchToProps)(CompoundDisplayChart);
+export default connect(mapStateToProps, null)(CompoundDisplayChart);

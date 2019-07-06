@@ -16,6 +16,8 @@ import {
 } from '@material-ui/core';
 import { formatCurrency } from '../../utils';
 import FireChartStatistics from './FireChartStatistics';
+import theme from '../../theme';
+import { Dispatch } from 'redux';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,15 +37,20 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const FireDisplayChart = (props) => {
-  const classes = useStyles();
+interface FireDisplayChartProps {
+  projection: Array<any>
+}
+
+const FireDisplayChart: React.FC<FireDisplayChartProps> = (props) => {
+  const classes = useStyles(theme);
   const { projection } = props;
 
   if (projection.length === 0) {
     return <Paper elevation={2} className={classes.root}>Fill in all required fields to see charts</Paper>;
   }
 
-  const CustomTooltip = ({ active, payload }) => {
+  const CustomTooltip = (props: any) => {
+    const { active, payload } = props;
     if (active) {
       const { index, total } = payload[0].payload;
       return (
@@ -71,7 +78,7 @@ const FireDisplayChart = (props) => {
           <XAxis
             dataKey="index"
             interval={0}
-            label={{ value: 'Year', position: 'insideBottom', offset: -10 }} />
+            label={{ value: 'Age', position: 'insideBottom', offset: -10 }} />
           <YAxis
             tickFormatter={(val) => formatCurrency(val)}
             label={{ value: 'Portfolio Value', angle: -90, position: 'insideLeft', offset: -60 }} />
@@ -84,13 +91,13 @@ const FireDisplayChart = (props) => {
   );
 }
 
-const mapStateToProps = ({ fireCalculator }) => {
+const mapStateToProps = ({ fireCalculator }: { fireCalculator: any }) => {
   return {
     projection: fireCalculator.projection,
   }
 }
 
-const mapDispatchToProps = (dispatch) => (
+const mapDispatchToProps = (dispatch: Dispatch) => (
   {
   }
 )

@@ -3,8 +3,9 @@ import Popover from '@material-ui/core/Popover';
 import Typography from '@material-ui/core/Typography';
 import { Help } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
+import theme from '../../theme';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
     icon: {
         marginLeft: '10px',
         width: '1rem',
@@ -13,18 +14,21 @@ const useStyles = makeStyles(theme => ({
         pointerEvents: 'none',
     },
     paper: {
-        padding: theme.spacing(1),
         backgroundColor: 'black',
         color: 'white',
     },
 }));
 
-const InfoButton = (props) => {
+interface InfoButtonProps{
+    text: string
+}
+
+const InfoButton: React.FC<InfoButtonProps> = (props) => {
     const { text } = props;
-    const classes = useStyles();
+    const classes = useStyles(theme);
     const [anchorEl, setAnchorEl] = React.useState(null);
 
-    function handlePopoverOpen(event) {
+    function handlePopoverOpen(event: any) {
         setAnchorEl(event.currentTarget);
     }
 

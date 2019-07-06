@@ -8,6 +8,7 @@ import {
 } from '@material-ui/core';
 import { formatCurrency } from '../../utils';
 import Statistics from '../Common/Statistics';
+import theme from '../../theme';
 
 const useStyles = makeStyles(theme => ({
     header: {
@@ -15,11 +16,15 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const CompoundChartStatistics = (props) => {
+interface CompoundChartStatisticsProps {
+    projection: Array<any>
+}
+
+const CompoundChartStatistics: React.FC<CompoundChartStatisticsProps> = (props) => {
     const {
         projection,
     } = props;
-    const classes = useStyles();
+    const classes = useStyles(theme);
 
     return (
         <Fragment>
@@ -40,7 +45,7 @@ const CompoundChartStatistics = (props) => {
     );
 }
 
-const mapStateToProps = ({ compoundCalculator }) => {
+const mapStateToProps = ({ compoundCalculator }: { compoundCalculator: any }) => {
     return {
         projection: compoundCalculator.projection,
     }

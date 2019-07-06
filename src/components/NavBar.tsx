@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import theme from '../theme';
 
 import MainMenu from './MainMenu';
 import { APP_ROUTES } from '../routes/routes.config';
@@ -22,9 +22,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ButtonAppBar = ({ calculatorType, location }) => {
+const ButtonAppBar = ({ location }: { location: any }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
-  const classes = useStyles();
+  const classes = useStyles(theme);
   const selectedRoute = APP_ROUTES.find(route => route.path === location.pathname);
 
   return (
@@ -52,16 +52,4 @@ const ButtonAppBar = ({ calculatorType, location }) => {
   );
 }
 
-const mapStateToProps = ({ general }) => {
-  return {
-    calculatorType: general.calculatorType
-  }
-}
-
-const mapDispatchToProps = (dispatch) => (
-  {
-
-  }
-)
-
-export default connect(mapStateToProps, mapDispatchToProps)(ButtonAppBar);
+export default ButtonAppBar;

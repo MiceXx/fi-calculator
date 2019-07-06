@@ -8,6 +8,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { APP_ROUTES } from '../routes/routes.config';
+import theme from '../theme';
 
 const useStyles = makeStyles({
     list: {
@@ -18,9 +19,14 @@ const useStyles = makeStyles({
     },
 });
 
-const MainMenu = (props) => {
+interface MainMenuProps {
+    open: boolean,
+    toggle: () => void,
+}
+
+const MainMenu: React.FC<MainMenuProps> = (props) => {
     const { open, toggle } = props;
-    const classes = useStyles();
+    const classes = useStyles(theme);
 
     return (
         <div>
@@ -32,7 +38,7 @@ const MainMenu = (props) => {
                     <List>
                         {APP_ROUTES.map(route => (
                             <ListItem key={route.path} component={Link} to={route.path}>
-                                <ListItemIcon><route.icon/></ListItemIcon>
+                                <ListItemIcon><route.icon /></ListItemIcon>
                                 <ListItemText primary={route.label} />
                             </ListItem>
                         ))}

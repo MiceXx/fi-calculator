@@ -1,18 +1,21 @@
+import { Dispatch } from "redux";
+import { CompoundFormType } from "../../components/types/CompoundForm";
+
 export const COMPOUND_CALCULATOR_SET_FORM_VALUES = 'COMPOUND_CALCULATOR_SET_FORM_VALUES';
 export const COMPOUND_CALCULATOR_COMPUTE_VALUES = 'COMPOUND_CALCULATOR_COMPUTE_VALUES';
 
 const PROJECTION_YEARS = 40;
 const MONTHS_PER_YEAR = 12;
 
-export function compoundCalculatorSetFormValues(dispatch) {
-    return form => {
+export function compoundCalculatorSetFormValues(dispatch: Dispatch) {
+    return (form: CompoundFormType) => {
         dispatch({ type: COMPOUND_CALCULATOR_SET_FORM_VALUES, form });
     }
 }
 
-export function compoundCalculatorComputeProjected(dispatch) {
-    const validate = (val) => val !== '' && !isNaN(val);
-    return form => {
+export function compoundCalculatorComputeProjected(dispatch: Dispatch) {
+    const validate = (val: any) => val && !isNaN(val);
+    return (form: CompoundFormType) => {
         const { portfolioValue, contribution, growth } = form;
         if (validate(portfolioValue) &&
             validate(contribution) &&

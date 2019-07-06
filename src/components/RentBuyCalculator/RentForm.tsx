@@ -22,6 +22,10 @@ import {
 import { formatCurrency } from '../../utils';
 import InfoButton from '../Common/InfoButton';
 import Statistics from '../Common/Statistics';
+import theme from '../../theme';
+import { Dispatch } from 'redux';
+
+import { RentFormType, AssumedValsType } from '../types/RentBuyForm';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -47,16 +51,23 @@ const useStyles = makeStyles(theme => ({
 
 const GROWTH_OPTIONS = [2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-const RentForm = (props) => {
-    const [investTheRest, setInvestTheRest] = useState(true)
+interface RentFormProps {
+    rentForm: RentFormType,
+    assumedVals: AssumedValsType,
+    action_setFormValues: (a: RentFormType) => void,
+    action_computeProjected: (a: RentFormType) => void,
+}
+
+const RentForm: React.FC<RentFormProps> = (props) => {
     const {
         rentForm,
         assumedVals,
         action_setFormValues,
         action_computeProjected,
     } = props;
-    const classes = useStyles();
-    const handleChange = e => {
+    const [investTheRest, setInvestTheRest] = useState(true);
+    const classes = useStyles(theme);
+    const handleChange = (e:any) => {
         const name = e.target.name;
         const value = e.target.value;
         if (isNaN(value)) return;
@@ -80,7 +91,7 @@ const RentForm = (props) => {
                 });
             }
         }
-    }, [action_setFormValues, investTheRest, assumedVals.portfolioValue, assumedVals.buyMonthlyCost]);
+    }, [action_setFormValues, investTheRest, assumedVals.portfolioValue, assumedVals.buyMonthlyCost, rentForm]);
 
     return (
         <Paper elevation={4} className={classes.root}>
@@ -129,7 +140,7 @@ const RentForm = (props) => {
                                 onChange={handleChange}
                             >
                                 {GROWTH_OPTIONS.map(v => (
-                                    <MenuItem key={v} value={v} name={v}>{v}%</MenuItem>
+                                    <MenuItem key={v} value={v}>{v}%</MenuItem>
                                 ))}
                             </Select>
                         </FormControl>
@@ -187,14 +198,14 @@ const RentForm = (props) => {
     );
 }
 
-const mapStateToProps = ({ rentBuyCalculator }) => {
+const mapStateToProps = ({ rentBuyCalculator }:{ rentBuyCalculator: any }) => {
     return {
         rentForm: rentBuyCalculator.rentForm,
         assumedVals: rentBuyCalculator.assumedVals,
     }
 }
 
-const mapDispatchToProps = (dispatch) => (
+const mapDispatchToProps = (dispatch: Dispatch) => (
     {
         action_setFormValues: rentBuyCalculatorSetFormValuesRent(dispatch),
         action_computeProjected: rentBuyCalculatorComputeProjectedRent(dispatch),

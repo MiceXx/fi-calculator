@@ -6,7 +6,7 @@ import { APP_ROUTES } from './routes.config';
 const AppRoutes = () => (
     <BrowserRouter>
         <Route path="*" component={NavBar} />
-        <Redirect from="/" to="/rentorbuy" />
+        <Redirect from="/" to="/fire" />
         {APP_ROUTES.map(route => (
             <Route
                 key={route.label}

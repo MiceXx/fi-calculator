@@ -18,6 +18,10 @@ import {
     fireCalculatorComputeProjected,
 } from '../../store/fireCalculator/actions';
 import InfoButton from '../Common/InfoButton';
+import { AGE_OPTIONS, GROWTH_OPTIONS } from '../../constants';
+import theme from '../../theme';
+import { FireFormType } from '../types/FireForm';
+import { Dispatch } from 'redux';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -41,18 +45,20 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const AGE_OPTIONS = [];
-for (let i = 10; i <= 70; i++) AGE_OPTIONS.push(i);
-const GROWTH_OPTIONS = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+interface FireFormProps {
+    form: FireFormType,
+    action_setFormValues: (a: FireFormType) => void,
+    action_computeProjected: (a: FireFormType) => void,
+}
 
-const FireForm = (props) => {
+const FireForm: React.FC<FireFormProps> = (props) => {
     const {
         form,
         action_setFormValues,
         action_computeProjected,
     } = props;
-    const classes = useStyles();
-    const handleChange = e => {
+    const classes = useStyles(theme);
+    const handleChange = (e:any) => {
         const name = e.target.name;
         const value = e.target.value;
         if (isNaN(value)) return;
@@ -86,7 +92,7 @@ const FireForm = (props) => {
                             onChange={handleChange}
                         >
                             {AGE_OPTIONS.map(v => (
-                                <MenuItem key={v} value={v} name={v}>{v}</MenuItem>
+                                <MenuItem key={v} value={v}>{v}</MenuItem>
                             ))}
                         </Select>
                     </FormControl>
@@ -130,7 +136,7 @@ const FireForm = (props) => {
                                 onChange={handleChange}
                             >
                                 {GROWTH_OPTIONS.map(v => (
-                                    <MenuItem key={v} value={v} name={v}>{v}%</MenuItem>
+                                    <MenuItem key={v} value={v}>{v}%</MenuItem>
                                 ))}
                             </Select>
                         </FormControl>
@@ -142,13 +148,13 @@ const FireForm = (props) => {
     );
 }
 
-const mapStateToProps = ({ fireCalculator }) => {
+const mapStateToProps = ({ fireCalculator }:{ fireCalculator: any }) => {
     return {
         form: fireCalculator.form,
     }
 }
 
-const mapDispatchToProps = (dispatch) => (
+const mapDispatchToProps = (dispatch: Dispatch) => (
     {
         action_setFormValues: fireCalculatorSetFormValues(dispatch),
         action_computeProjected: fireCalculatorComputeProjected(dispatch),

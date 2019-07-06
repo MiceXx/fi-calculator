@@ -3,8 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import {
     Typography,
 } from '@material-ui/core';
+import theme from '../../theme';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
     statistic: {
         textAlign: 'center',
         flexGrow: 1,
@@ -15,9 +16,14 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const Statistics = (props) => {
+interface StatisticsProps {
+    title: string,
+    content: string | number | null,
+}
+
+const Statistics: React.FC<StatisticsProps> = (props) => {
     const { title, content } = props;
-    const classes = useStyles();
+    const classes = useStyles(theme);
     return (
         <div className={classes.statistic}>
             <Typography className={classes.statisticCaption} >

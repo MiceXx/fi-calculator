@@ -10,6 +10,7 @@ import {
   Tooltip,
 } from 'recharts';
 import { makeStyles } from '@material-ui/core/styles';
+import theme from '../../theme';
 
 import {
   Paper,
@@ -34,8 +35,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const RentBuyDisplayChart = (props) => {
-  const classes = useStyles();
+interface RentBuyDisplayChartProps {
+  projectionRent: Array<any>,
+  projectionBuy: Array<any>,
+}
+
+const RentBuyDisplayChart: React.FC<RentBuyDisplayChartProps> = (props) => {
+  const classes = useStyles(theme);
   const { projectionRent, projectionBuy } = props;
 
   if (projectionRent.length === 0 && projectionBuy.length === 0) {
@@ -63,7 +69,8 @@ const RentBuyDisplayChart = (props) => {
     }
   }
 
-  const CustomTooltip = ({ active, payload }) => {
+  const CustomTooltip = (props: any) => {
+    const { active, payload } = props;
     if (active) {
       const { index, rentTotal, buyTotal } = payload[0].payload;
       return (
@@ -106,16 +113,12 @@ const RentBuyDisplayChart = (props) => {
   );
 }
 
-const mapStateToProps = ({ rentBuyCalculator }) => {
+const mapStateToProps = ({ rentBuyCalculator }: { rentBuyCalculator: any }) => {
   return {
     projectionRent: rentBuyCalculator.projectionRent,
     projectionBuy: rentBuyCalculator.projectionBuy,
   }
 }
 
-const mapDispatchToProps = (dispatch) => (
-  {
-  }
-)
 
-export default connect(mapStateToProps, mapDispatchToProps)(RentBuyDisplayChart);
+export default connect(mapStateToProps, null)(RentBuyDisplayChart);

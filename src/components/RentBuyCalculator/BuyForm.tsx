@@ -18,6 +18,10 @@ import {
     rentBuyCalculatorComputeProjectedBuy,
 } from '../../store/rentBuyCalculator/actions';
 import InfoButton from '../Common/InfoButton';
+import theme from '../../theme';
+import { BuyFormType } from '../types/RentBuyForm';
+import { HOME_GROWTH_OPTIONS, AMORTIZATION_OPTIONS } from '../../constants';
+import { Dispatch } from 'redux';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -30,9 +34,6 @@ const useStyles = makeStyles(theme => ({
         width: 180,
         margin: 'auto',
     },
-    formControlAmortization: {
-        width: 150,
-    },
     field: {
         margin: 'auto',
     },
@@ -43,20 +44,20 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const HOME_GROWTH_OPTIONS = [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const AMORTIZATION_OPTIONS = [];
-for (let i = 1; i <= 30; i++) {
-    AMORTIZATION_OPTIONS.push(i);
+interface BuyFormProps {
+    buyForm: BuyFormType,
+    action_setFormValues: (a: BuyFormType) => void,
+    action_computeProjected: (a: BuyFormType) => void,
 }
 
-const BuyForm = (props) => {
+const BuyForm: React.FC<BuyFormProps> = (props) => {
     const {
         buyForm,
         action_setFormValues,
         action_computeProjected,
     } = props;
-    const classes = useStyles();
-    const handleChange = e => {
+    const classes = useStyles(theme);
+    const handleChange = (e: any) => {
         const name = e.target.name;
         const value = e.target.value;
         if (isNaN(value)) return;
@@ -81,7 +82,7 @@ const BuyForm = (props) => {
                         <InfoButton text="Details of the house you are looking to purchase" />
                     </div>
                 </ListItem>
-                <ListItem>
+                <ListItem className={classes.fieldWithIcon}>
                     <TextField
                         className={classes.field}
                         name="propertyCost"
@@ -133,19 +134,22 @@ const BuyForm = (props) => {
                     </div>
                 </ListItem>
                 <ListItem>
-                    <TextField
-                        className={classes.field}
-                        name="mortgageRate"
-                        label="Mortgage Rate"
-                        placeholder="0"
-                        InputProps={{
-                            endAdornment: <InputAdornment position="end">%</InputAdornment>
-                        }}
-                        value={buyForm.mortgageRate}
-                        onChange={handleChange}
-                    />
                     <div className={classes.fieldWithIcon}>
-                        <FormControl className={classes.formControlAmortization}>
+                        <TextField
+                            className={classes.field}
+                            name="mortgageRate"
+                            label="Mortgage Rate"
+                            placeholder="0"
+                            InputProps={{
+                                endAdornment: <InputAdornment position="end">%</InputAdornment>
+                            }}
+                            value={buyForm.mortgageRate}
+                            onChange={handleChange}
+                        />
+                        <InfoButton text="Mortgage amount is assumed to be (Property value + Fees) - Down Payment" />
+                    </div>
+                    <div className={classes.fieldWithIcon}>
+                        <FormControl className={classes.formControl}>
                             <InputLabel>Amortization Period</InputLabel>
                             <Select
                                 value={buyForm.amortizationPeriod}
@@ -153,11 +157,10 @@ const BuyForm = (props) => {
                                 onChange={handleChange}
                             >
                                 {AMORTIZATION_OPTIONS.map(v => (
-                                    <MenuItem key={v} value={v} name={v}>{v} years</MenuItem>
+                                    <MenuItem key={v} value={v}>{v} years</MenuItem>
                                 ))}
                             </Select>
                         </FormControl>
-                        <InfoButton text="Mortgage amount is assumed to be (Property value + Fees) - Down Payment" />
                     </div>
                 </ListItem>
                 <ListItem>
@@ -184,7 +187,7 @@ const BuyForm = (props) => {
                                 onChange={handleChange}
                             >
                                 {HOME_GROWTH_OPTIONS.map(v => (
-                                    <MenuItem key={v} value={v} name={v}>{v}%</MenuItem>
+                                    <MenuItem key={v} value={v} >{v}%</MenuItem>
                                 ))}
                             </Select>
                         </FormControl>
@@ -196,14 +199,14 @@ const BuyForm = (props) => {
     );
 }
 
-const mapStateToProps = ({ rentBuyCalculator }) => {
+const mapStateToProps = ({ rentBuyCalculator }: { rentBuyCalculator: any }) => {
     return {
         buyForm: rentBuyCalculator.buyForm,
         projection: rentBuyCalculator.projection,
     }
 }
 
-const mapDispatchToProps = (dispatch) => (
+const mapDispatchToProps = (dispatch: Dispatch) => (
     {
         action_setFormValues: rentBuyCalculatorSetFormValuesBuy(dispatch),
         action_computeProjected: rentBuyCalculatorComputeProjectedBuy(dispatch),

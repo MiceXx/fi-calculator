@@ -6,6 +6,7 @@ import { Grid } from '@material-ui/core';
 import RentForm from './RentForm';
 import BuyForm from './BuyForm';
 import RentBuyDisplayChart from './RentBuyDisplayChart';
+import theme from '../../theme';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -14,7 +15,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const RentBuyCalculator = () => {
-    const classes = useStyles();
+    const classes = useStyles(theme);
     return (
         <Grid container className={classes.root}>
             <Grid item xs={6} >

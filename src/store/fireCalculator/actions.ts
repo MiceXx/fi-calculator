@@ -1,18 +1,21 @@
+import { Dispatch } from "redux";
+import { FireFormType } from "../../components/types/FireForm";
+
 export const FIRE_CALCULATOR_SET_FORM_VALUES = 'FIRE_CALCULATOR_SET_FORM_VALUES';
 export const FIRE_CALCULATOR_COMPUTE_VALUES = 'FIRE_CALCULATOR_COMPUTE_VALUES';
 
 const PROJECTION_YEARS = 40;
 const MONTHS_PER_YEAR = 12;
 
-export function fireCalculatorSetFormValues(dispatch) {
-    return form => {
+export function fireCalculatorSetFormValues(dispatch: Dispatch) {
+    return (form: FireFormType) => {
         dispatch({ type: FIRE_CALCULATOR_SET_FORM_VALUES, form });
     }
 }
 
-export function fireCalculatorComputeProjected(dispatch) {
+export function fireCalculatorComputeProjected(dispatch: Dispatch) {
     const validate = (val) => val !== '' && !isNaN(val);
-    return form => {
+    return (form: FireFormType) => {
         const { age, contribution, growth, target } = form;
         if (validate(age) &&
             validate(contribution) &&
@@ -27,7 +30,7 @@ export function fireCalculatorComputeProjected(dispatch) {
                 const t = i * MONTHS_PER_YEAR;
                 const total = contribution * ((Math.pow(ir, t) - 1) / (rate / MONTHS_PER_YEAR));
                 projection.push({
-                    index: i,
+                    index: i + age,
                     total,
                 });
             }

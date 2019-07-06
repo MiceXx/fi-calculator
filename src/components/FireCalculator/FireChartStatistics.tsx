@@ -7,6 +7,8 @@ import {
     ListItem,
 } from '@material-ui/core';
 import Statistics from '../Common/Statistics';
+import theme from '../../theme';
+import { FireFormType } from '../types/FireForm';
 
 const useStyles = makeStyles(theme => ({
     header: {
@@ -14,12 +16,17 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const FireChartStatistics = (props) => {
+interface FireChartStatisticsProps {
+    form: FireFormType,
+    timeToTarget: number,
+}
+
+const FireChartStatistics: React.FC<FireChartStatisticsProps> = (props) => {
     const {
         form,
         timeToTarget,
     } = props;
-    const classes = useStyles();
+    const classes = useStyles(theme);
 
     return (
         <Fragment>
@@ -30,7 +37,7 @@ const FireChartStatistics = (props) => {
                     </Typography>
                 </ListItem>
                 <ListItem>
-                    <Statistics title="You will FIRE at age" content={form.age + timeToTarget} />
+                    {form.age && <Statistics title="You will FIRE at age" content={form.age + timeToTarget} />}
                 </ListItem>
 
             </List >
@@ -38,7 +45,7 @@ const FireChartStatistics = (props) => {
     );
 }
 
-const mapStateToProps = ({ fireCalculator }) => {
+const mapStateToProps = ({ fireCalculator }: { fireCalculator: any }) => {
     return {
         form: fireCalculator.form,
         timeToTarget: fireCalculator.timeToTarget,
