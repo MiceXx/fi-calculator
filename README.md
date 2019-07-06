@@ -1,4 +1,4 @@
-**https://micexx.github.io/fi-calculator/**
+<center> <h1>https://micexx.github.io/fi-calculator/</h1> </center>
 
 ## FIRE Calculator
 FIRE (Financial Independence, Retire Early) is a lifestyle whose goal is financial independence and retiring early. The idea is to start saving when you are young and to make use of the power of compounded growth in hopes of eventually living off the passive income accrued from all your passive investments.
